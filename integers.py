@@ -1,3 +1,5 @@
+import random
+
 def is_even(n):
     return n % 2 == 0
 
@@ -83,4 +85,39 @@ def mod_power(a, exponent, m):
         return a
     half = mod_power(a, exponent // 2, m)
     return half*half % m if is_even(exponent) else half*half*a % m
+
+
+def remove_powers_of_2(n: int):
+    number = n
+    powers = 0
+    while is_even(number):
+        powers += 1
+        number /= 2
+    return powers, number
+
+
+def is_probably_prime(n: int, base=None) -> bool:
+    """
+    Miller-Rabin primality test
+    :param n:
+    :param base:
+    :return:
+    """
+    assert n > 1, "The argument must be an integer greater than 1"
+    if not base:
+        base = random.randint(1, n-1)
+    k, m = remove_powers_of_2(n-1)
+    b = mod_power(base, m, n)
+    if b == 1 or b == n-1:
+        return True
+    for _ in range(1, k):
+        b = mod_power(b, 2, n)
+        if b == 1:
+            return False
+        if b == n-1:
+            return True
+    return False
+
+
+
 

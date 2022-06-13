@@ -50,3 +50,25 @@ def test_mod_solve():
 def test_mod_power():
     p = mod_power(2, 1234, 789)
     assert 481 == p
+    p = mod_power(263, 2, 561)
+    assert 166 == p
+
+
+def test_remove_powers_of_2():
+    n = 773
+    k, m = remove_powers_of_2(n-1)
+    assert 2 == k
+    assert 193 == m
+
+    n = 561
+    k, m = remove_powers_of_2(n - 1)
+    assert 4 == k
+    assert 35 == m
+
+
+def test_is_probably_prime():
+    assert not is_probably_prime(561, base=2)
+    assert not is_probably_prime(561)
+    assert not is_probably_prime(667)
+    assert is_probably_prime(773)
+    assert is_probably_prime(983)
