@@ -1,5 +1,6 @@
 import random
 
+
 def is_even(n):
     return n % 2 == 0
 
@@ -84,7 +85,7 @@ def mod_power(a, exponent, m):
     if exponent == 1:
         return a
     half = mod_power(a, exponent // 2, m)
-    return half*half % m if is_even(exponent) else half*half*a % m
+    return half * half % m if is_even(exponent) else half * half * a % m
 
 
 def remove_powers_of_2(n: int):
@@ -92,11 +93,11 @@ def remove_powers_of_2(n: int):
     powers = 0
     while is_even(number):
         powers += 1
-        number /= 2
+        number //= 2
     return powers, number
 
 
-def is_probably_prime(n: int, base=None) -> bool:
+def is_probably_prime(n: int, iterations:int = 10) -> bool:
     """
     Miller-Rabin primality test
     :param n:
@@ -104,20 +105,45 @@ def is_probably_prime(n: int, base=None) -> bool:
     :return:
     """
     assert n > 1, "The argument must be an integer greater than 1"
-    if not base:
-        base = random.randint(1, n-1)
-    k, m = remove_powers_of_2(n-1)
-    b = mod_power(base, m, n)
-    if b == 1 or b == n-1:
+    if n == 2:
         return True
-    for _ in range(1, k):
-        b = mod_power(b, 2, n)
-        if b == 1:
+    if n % 2 == 0:
+        return False
+    k, s = remove_powers_of_2(n-1)
+    for _ in range(iterations):
+        a = random.randint(2, n - 1)
+        x = pow(a, s, n)
+        if x == 1 or x == n - 1:
+            continue
+        for _ in range(k - 1):
+            x = mod_power(x, 2, n)
+            if x == n - 1:
+                break
+        else:
             return False
-        if b == n-1:
-            return True
-    return False
+    return True
 
+
+def random_number(number_of_digits: int):
+    range_start = 10 ** (number_of_digits - 1)
+    range_end = (10 ** number_of_digits) - 1
+    return random.randint(range_start, range_end)
+
+
+def generate_random_prime(number_of_digits: int) -> int:
+    attempts: int = 0
+    n = random_number(number_of_digits)
+
+    while True:
+        attempts += 1
+        if is_even(n):
+            n = n + 1
+            continue
+        if is_probably_prime(n):
+            # TODO log
+            print(f'Found a prime in {attempts} attempts')
+            return n
+        n = n + 1
 
 
 

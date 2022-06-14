@@ -67,8 +67,20 @@ def test_remove_powers_of_2():
 
 
 def test_is_probably_prime():
-    assert not is_probably_prime(561, base=2)
     assert not is_probably_prime(561)
     assert not is_probably_prime(667)
     assert is_probably_prime(773)
     assert is_probably_prime(983)
+    assert is_probably_prime(173530588845534154720930373401)
+
+
+def test_random_number():
+    n = random_number(10)
+    assert 10 == len(str(n))
+    n = random_number(47)
+    assert 47 == len(str(n))
+
+
+def test_generate_random_prime():
+    prime = generate_random_prime(100)
+    assert 100 == len(str(prime))
