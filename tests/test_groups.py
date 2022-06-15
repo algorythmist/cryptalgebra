@@ -13,3 +13,9 @@ def test_compute_cycle():
     assert [7, 1] == elems
     elems = compute_cycle(3, 10)
     assert [3, 9, 7, 1] == elems
+
+
+def test_find_primitive_roots():
+    roots = find_primitive_roots(19)
+    assert [2, 3, 10, 13, 14, 15] == roots
+

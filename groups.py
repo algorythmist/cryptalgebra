@@ -27,3 +27,7 @@ def compute_cycle(a, n):
         product = a*product % n
         elems.append(product)
     return elems
+
+
+def find_primitive_roots(p: int) -> list:
+    return [a for a in range(2, p) if len(compute_cycle(a, p)) == p-1]
