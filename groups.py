@@ -1,5 +1,5 @@
-from integers import gcd
-
+from integers import gcd, mod_power
+import random
 
 def get_multiplicative_elements(n: int) -> list:
     """
@@ -30,4 +30,37 @@ def compute_cycle(a, n):
 
 
 def find_primitive_roots(p: int) -> list:
+    """
+    Naive and slow way for primitive roots
+    :param p:
+    :return:
+    """
     return [a for a in range(2, p) if len(compute_cycle(a, p)) == p-1]
+
+
+def is_primitive_root(g: int, prime: int, prime_factors: list) -> bool:
+    """
+    Determine if n is a primitive root of a prime, given the prime factors of p-1
+    :param g: the potential root in question
+    :param prime: the prime number whose root we seek
+    :param prime_factors: the prime factors of the integer prime-1
+    :return:
+    """
+    n = prime-1
+    for factor in prime_factors:
+        if mod_power(g, n/factor, prime) == 1:
+            return False
+    return True
+
+
+def find_primitive_root(prime: int, prime_factors: list,
+                        attempts = 1000) -> int:
+    attempted = set()
+    for _ in range(attempts):
+        g = random.randint(2, prime-1)
+        if g in attempted:
+            continue
+        if is_primitive_root(g, prime, prime_factors):
+            return g
+        else:
+            attempted.add(g)

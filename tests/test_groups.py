@@ -1,5 +1,5 @@
 from groups import *
-
+from integers import naive_factorization
 
 def test_get_multiplicative_elements():
     elems = get_multiplicative_elements(21)
@@ -19,3 +19,14 @@ def test_find_primitive_roots():
     roots = find_primitive_roots(19)
     assert [2, 3, 10, 13, 14, 15] == roots
 
+
+def test_is_primitive_root():
+    assert not is_primitive_root(5, 19, [2, 3])
+    assert is_primitive_root(10, 19, [2, 3])
+
+
+def test_find_primitive_root():
+    p = 8661340973
+    f = naive_factorization(p-1)
+    root = find_primitive_root(p, prime_factors=f)
+    assert is_primitive_root(root, p, f)
