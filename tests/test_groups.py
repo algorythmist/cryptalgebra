@@ -1,5 +1,6 @@
 from groups import *
-from integers import naive_factorization
+from factors import naive_factorization
+
 
 def test_get_multiplicative_elements():
     elems = get_multiplicative_elements(21)

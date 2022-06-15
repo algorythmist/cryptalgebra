@@ -1,4 +1,3 @@
-import math
 import random
 
 
@@ -146,8 +145,4 @@ def generate_random_prime(number_of_digits: int) -> int:
             return n
         n = n + 1
 
-
-def naive_factorization(n: int) -> list:
-    sq = int(math.ceil(math.sqrt(n)))
-    return [f for f in range(2, sq) if n % f == 0]
 

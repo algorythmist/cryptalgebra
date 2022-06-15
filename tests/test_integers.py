@@ -1,5 +1,6 @@
 import pytest
 
+from factors import naive_factorization
 from integers import *
 
 
@@ -85,8 +86,3 @@ def test_generate_random_prime():
     prime = generate_random_prime(100)
     assert 100 == len(str(prime))
 
-
-def test_naive_factorization():
-    assert len(naive_factorization(19)) == 0
-    assert [2, 3] == naive_factorization(18)
-    assert [2, 4, 7, 8, 14, 28, 56] == naive_factorization(9688)
