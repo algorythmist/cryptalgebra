@@ -23,3 +23,19 @@ def test_fermat_factorization():
     p_found, q_found = fermat_factorization(p*q)
     assert p == p_found
     assert q == q_found
+
+
+def test_factorial_power():
+    a = 2
+    k = 4
+    result = mod_power(a, 24, 19)
+    assert 7 == result
+    fp = factorial_power(a, k, 19)
+    assert result == fp
+
+
+def test_factorial_factoring():
+    n = 618240007109027021
+    factor = factorial_factoring(n)
+    assert 250387201 == factor
+
