@@ -39,6 +39,7 @@ class ElGamal:
         :param secret: the secret exponent
         """
         self.p = p if p else generate_random_prime(101)
+        #TODO: need to guarantee this will be a primitive root
         self.generator = generator if generator else generate_random_prime(10)
         self.secret = secret if secret else random.randint(2, p - 1)
         self.public_key = mod_power(self.generator, self.secret, p)

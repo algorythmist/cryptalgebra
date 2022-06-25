@@ -1,3 +1,7 @@
+"""
+Algorithms for finding the factorization of integers
+"""
+
 import math
 from math import isqrt
 

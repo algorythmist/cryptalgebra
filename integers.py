@@ -1,3 +1,7 @@
+"""
+Number-theoretic operations on integers
+"""
+
 import random
 
 
@@ -6,6 +10,12 @@ def is_even(n):
 
 
 def gcd(n1: int, n2: int) -> int:
+    """
+    Compute the greatest common divisor of two integers
+    :param n1: a non-negative integer
+    :param n2: a non-negative integer
+    :return: the greatest common divisor.
+    """
     assert (n1 >= 0 and n2 >= 0), "Arguments must be non-negative integers"
     if n1 < n2:
         return gcd(n2, n1)
@@ -13,6 +23,12 @@ def gcd(n1: int, n2: int) -> int:
 
 
 def lcm(n1: int, n2: int) -> int:
+    """
+    Compute the least common multiple
+    :param n1: a non-negative integer
+    :param n2: a non-negative integer
+    :return: the least common multiple
+    """
     return n1 * n2 / gcd(n1, n2)
 
 
@@ -97,19 +113,19 @@ def remove_powers_of_2(n: int):
     return powers, number
 
 
-def is_probably_prime(n: int, iterations:int = 10) -> bool:
+def is_probably_prime(n: int, iterations: int = 10) -> bool:
     """
     Miller-Rabin primality test
-    :param n:
-    :param base:
-    :return:
+    :param n: the integer to check for primality
+    :param iterations: maximum number of attempts
+    :return: true or false
     """
     assert n > 1, "The argument must be an integer greater than 1"
     if n == 2:
         return True
     if n % 2 == 0:
         return False
-    k, s = remove_powers_of_2(n-1)
+    k, s = remove_powers_of_2(n - 1)
     for _ in range(iterations):
         a = random.randint(2, n - 1)
         x = pow(a, s, n)
@@ -131,6 +147,11 @@ def random_number(number_of_digits: int):
 
 
 def generate_random_prime(number_of_digits: int) -> int:
+    """
+    Generate a random prime number with a given number of digits
+    :param number_of_digits: number of digits
+    :return: a number that passes the Miller-Rabin primality test, and therefore is probably a prime
+    """
     attempts: int = 0
     n = random_number(number_of_digits)
 
@@ -144,5 +165,3 @@ def generate_random_prime(number_of_digits: int) -> int:
             print(f'Found a prime in {attempts} attempts')
             return n
         n = n + 1
-
-

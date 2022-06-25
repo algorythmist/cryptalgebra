@@ -1,4 +1,3 @@
 - Complete README
+- Find primmitive roots and/or manufacture primes with known primitive root
 - Diffie Hellman
-- Message Encoders
-
