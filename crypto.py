@@ -1,5 +1,6 @@
 import random
 
+from encoders import encode_ascii, decode_ascii
 from integers import mod_inverse, mod_power, generate_random_prime
 
 
@@ -14,6 +15,12 @@ class RSA:
 
     def get_public_key(self):
         return self.e, self.n
+
+    def encrypt_text(self, message: str, encoder=encode_ascii):
+        return self.encrypt_int(encoder(message))
+
+    def decrypt_text(self, encrypted_message: int, decoder=decode_ascii):
+        return decoder(self.decrypt_int(encrypted_message))
 
     def encrypt_int(self, message: int) -> int:
         return mod_power(message, self.e, self.n)
