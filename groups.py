@@ -1,6 +1,7 @@
 from integers import gcd, mod_power
 import random
 
+
 def get_multiplicative_elements(n: int) -> list:
     """
     Compute all elements of the multiplicative group U(n)
@@ -55,6 +56,14 @@ def is_primitive_root(g: int, prime: int, prime_factors: list) -> bool:
 
 def find_primitive_root(prime: int, prime_factors: list,
                         attempts = 1000) -> int:
+    """
+    Attempts to find a primitive root of a prime number p, if the factorization of p-1 is known
+    :param prime: the prime number
+    :param prime_factors: the prime factors of prime-1
+    :param attempts: number of times to try
+    :return: a primitive root if found
+    :raises ValueError if no roots were found
+    """
     attempted = set()
     for _ in range(attempts):
         g = random.randint(2, prime-1)
@@ -64,3 +73,4 @@ def find_primitive_root(prime: int, prime_factors: list,
             return g
         else:
             attempted.add(g)
+    raise ValueError("Could not find a primitive root")
