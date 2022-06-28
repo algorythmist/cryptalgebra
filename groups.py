@@ -45,8 +45,11 @@ def is_primitive_root(g: int, prime: int, prime_factors: list) -> bool:
     :param g: the potential root in question
     :param prime: the prime number whose root we seek
     :param prime_factors: the prime factors of the integer prime-1
-    :return:
+    :return: True or False
     """
+    if not prime_factors or len(prime_factors) == 0:
+        raise ValueError("Prime factors must be supplied")
+
     n = prime-1
     for factor in prime_factors:
         if mod_power(g, n/factor, prime) == 1:

@@ -24,6 +24,7 @@ def test_find_primitive_roots():
 def test_is_primitive_root():
     assert not is_primitive_root(5, 19, [2, 3])
     assert is_primitive_root(10, 19, [2, 3])
+    assert is_primitive_root(3374359722, 8661340973, [2, 4])
 
 
 def test_find_primitive_root():
