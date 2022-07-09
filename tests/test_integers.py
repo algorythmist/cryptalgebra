@@ -73,6 +73,8 @@ def test_is_probably_prime():
     assert is_probably_prime(773)
     assert is_probably_prime(983)
     assert is_probably_prime(173530588845534154720930373401)
+    n = 38200901201 # This is a strong pseudo prime, so a single M-R test may fail
+    assert not is_probably_prime(n)
 
 
 def test_random_number():

@@ -44,6 +44,15 @@ def test_rsa_generated():
     assert message == decrypted
 
 
+def test_rsa_signature():
+    rsa1 = RSA()
+    message = 'The cat slept'
+    signature1 = rsa1.sign(message)
+    assert rsa1.verify_signature(message, signature1)
+    rsa2 = RSA()
+    assert not rsa2.verify_signature(message, signature1)
+
+
 def test_elgamal():
     prime = 8661340973
     generator = 644263599

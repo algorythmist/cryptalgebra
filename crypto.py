@@ -16,10 +16,10 @@ class RSA:
     def get_public_key(self):
         return self.e, self.n
 
-    def encrypt_text(self, message: str, encoder=encode_ascii):
+    def encrypt_text(self, message: str, encoder=encode_ascii) -> int:
         return self.encrypt_int(encoder(message))
 
-    def decrypt_text(self, encrypted_message: int, decoder=decode_ascii):
+    def decrypt_text(self, encrypted_message: int, decoder=decode_ascii) -> str:
         return decoder(self.decrypt_int(encrypted_message))
 
     def encrypt_int(self, message: int) -> int:
@@ -28,6 +28,14 @@ class RSA:
     def decrypt_int(self, encrypted_message: int) -> int:
         return mod_power(encrypted_message, self.d, self.n)
 
+    def sign(self, message: str, encoder=encode_ascii) -> int:
+        return self.sign_int(encoder(message))
+
+    def sign_int(self, message: int) -> int:
+        return self.decrypt_int(message)
+
+    def verify_signature(self, message: str, signature: int, encoder=encode_ascii) -> bool:
+        return self.encrypt_int(signature) == encoder(message)
 
 class ElGamal:
 
