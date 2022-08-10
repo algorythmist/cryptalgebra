@@ -3,6 +3,7 @@ Number-theoretic operations on integers
 """
 
 import random
+import logging
 
 
 def is_even(n):
@@ -161,7 +162,6 @@ def generate_random_prime(number_of_digits: int) -> int:
             n = n + 1
             continue
         if is_probably_prime(n):
-            # TODO log
-            print(f'Found a prime in {attempts} attempts')
+            logging.info(f'Found a prime in {attempts} attempts')
             return n
         n = n + 1
