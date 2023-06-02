@@ -1,6 +1,5 @@
 import pytest
 
-from factors import naive_factorization
 from integers import *
 
 
