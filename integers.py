@@ -61,9 +61,9 @@ def mod_inverse(a, m):
     """
     Compute the multiplicative inverse of a mod m.
     It is required that gcd(a,n) = 1
-    :param a:
-    :param m:
-    :return:
+    :param a: the integer
+    :param m: the modulo
+    :return: the multiplicative inverse of a mod m
     """
     assert m > 0 and a >= 0, "Arguments must be positive integers"
     assert gcd(m, a) == 1, "The integers must be relatively prime"
