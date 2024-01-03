@@ -65,7 +65,9 @@ def mod_inverse(a, m):
     :param m: the modulo
     :return: the multiplicative inverse of a mod m
     """
-    assert m > 0 and a >= 0, "Arguments must be positive integers"
+    assert m > 0, "Modulo must be a positive integer"
+    if a < 0:
+        a = m + a
     assert gcd(m, a) == 1, "The integers must be relatively prime"
     x, y = extended_euclidean_algorithm(m, a)
     return y if y > 0 else m + y

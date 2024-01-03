@@ -41,6 +41,7 @@ def test_mod_inverse():
     assert 5 == mod_inverse(9, 11)
     assert 6 == mod_inverse(2, 11)
     assert 17 == mod_inverse(17, 24)
+    assert 17 == mod_inverse(-7, 24)
 
 
 def test_mod_solve():
