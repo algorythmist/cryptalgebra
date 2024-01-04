@@ -3,6 +3,7 @@ from elliptic import EllipticCurve
 
 def test_elliptic_curve():
     ec = EllipticCurve(4, 20, 29)
+    assert str(ec) == "y^2 = x^3 + 4x + 20 (mod 29)"
     assert ec.determinant() == 4
     assert ec.is_valid_point(5, 22)
     assert ec.is_valid_point(15, 27)

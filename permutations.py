@@ -1,12 +1,13 @@
-from ctypes import Array
 import itertools
+from ctypes import Array
+
 
 class Permutation:
 
     def __init__(self, permutationArray: Array[int]):
         if not is_valid_permutation(permutationArray):
             raise ValueError("The given array is not a valid permutation")
-        self._permutationArray = permutationArray
+        self._permutation_array = permutationArray
 
     @staticmethod
     def create(*indices):
@@ -28,25 +29,25 @@ class Permutation:
         return Permutation(perm)
 
     def __len__(self):
-        return len(self._permutationArray)
+        return len(self._permutation_array)
 
     def __str__(self):
-        return str(self._permutationArray)
+        return str(self._permutation_array)
 
     def __repr__(self):
-        return str(self._permutationArray)
+        return str(self._permutation_array)
 
     def __getitem__(self, key):
-        return self._permutationArray[key]
+        return self._permutation_array[key]
 
     def __mul__(self, other):
-        return Permutation(compose(self._permutationArray, other._permutationArray))
+        return Permutation(compose(self._permutation_array, other._permutation_array))
 
     def to_array(self):
-        return self._permutationArray.copy()
+        return self._permutation_array.copy()
 
     def to_matrix(self):
-        size = len(self._permutationArray)
+        size = len(self._permutation_array)
         matrix = [[0] * size for _ in range(size)]
         for i in range(size):
             matrix[i][self[i]] = 1

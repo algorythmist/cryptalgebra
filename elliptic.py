@@ -16,7 +16,7 @@ class EllipticCurve:
         return self.a == other.a and self.b == other.b and self.p == other.p
 
     def __repr__(self):
-        return f"y^2 = x^3 + {self.a}x + {self.b}, mod {self.p})"
+        return f"y^2 = x^3 + {self.a}x + {self.b} (mod {self.p})"
 
     def __str__(self):
         return self.__repr__()

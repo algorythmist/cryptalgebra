@@ -23,8 +23,14 @@ class Polynomial:
         order = max(self.order(), other.order())
         return Polynomial(*(self._get(i) + other._get(i) for i in range(order + 1)))
 
+    def __iadd__(self, other):
+        return self + other
+
     def __sub__(self, other):
         return self + (-other)
+
+    def __isub__(self, other):
+        return self - other
 
     def __neg__(self):
         return Polynomial(*(-a for a in self.coefficients))
@@ -36,6 +42,9 @@ class Polynomial:
             for j in range(len(other.coefficients)):
                 coeff[k + j] += self.coefficients[k] * other.coefficients[j]
         return Polynomial(*coeff)
+
+    def __imul__(self, other):
+        return self * other
 
     def __call__(self, x):
         return self.evaluate(x)
@@ -58,6 +67,28 @@ class Polynomial:
 
     def __getitem__(self, index):
         return self.coefficients[index] if index < len(self.coefficients) else 0
+
+    def is_monomial(self) -> bool:
+        return all(coeff == 0 for coeff in self.coefficients[:-1])
+
+    def __pow__(self, exponent: int):
+        if exponent == 0:
+            return Polynomial.zero()  # Return zero polynomial
+
+        if exponent == 1:
+            return self  # Return the polynomial itself
+
+        if self.is_monomial():
+            deg = self.degree * exponent
+            return Polynomial.monomial(deg, self.coefficients[self.degree])
+
+        half = self**(exponent // 2)
+        squared = half * half
+
+        if exponent % 2 == 0:  # If exponent is even
+            return squared
+        else:
+            return squared * self
 
     @staticmethod
     def monomial(degree, coefficient):
