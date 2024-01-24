@@ -1,4 +1,8 @@
+from typing import Tuple
+
 from integers import mod_inverse
+
+Point = Tuple[int, int]
 
 
 class EllipticCurve:
@@ -21,34 +25,32 @@ class EllipticCurve:
     def __str__(self):
         return self.__repr__()
 
-    def is_valid_point(self, x, y):
+    def is_valid_point(self, x, y) -> bool:
         """
         Check if the point (x, y) is a valid point on the curve.
         """
         return (y * y - x * x * x - self.a * x - self.b) % self.p == 0
 
-    def determinant(self):
+    def determinant(self) -> int:
         """
         Return the determinant of the curve.
         """
         return -16 * (4 * self.a * self.a * self.a + 27 * self.b * self.b) % self.p
 
-    def add(self, p1, p2):
+    def add(self, p1: Point, p2: Point) -> Point:
         """
         Add two points p1 = (x1, y1) and p2 = (x2, y2) on the curve.
         """
         x1, y1 = p1
         x2, y2 = p2
         if x1 == x2 and y1 == y2:
-            return self.double(x1, y1)
-        if x1 == x2 and y1 != y2:
-            return None
+            return self.double((x1, y1))
         slope = (y1 - y2) * mod_inverse(x1 - x2, self.p) % self.p
         x3 = (slope * slope - x1 - x2) % self.p
         y3 = (slope * (x1 - x3) - y1) % self.p
         return x3, y3
 
-    def double(self, point):
+    def double(self, point: Point) -> Point:
         """
         Double the point (x, y) on the curve.
         """
@@ -58,7 +60,7 @@ class EllipticCurve:
         yr = (slope * (x - xr) - y) % self.p
         return xr, yr
 
-    def negate(self, point):
+    def negate(self, point: Point) -> Point:
         """
         Negate the point (x, y) on the curve.
         """
