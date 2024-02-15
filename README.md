@@ -10,4 +10,5 @@ Cryptosystems based on abstract algebra
 - encoders.py: convert text messages to and from integers
 - crypto.py: encryption algorithms
 - continued_fractions.py: continues fractions expansion. https://en.wikipedia.org/wiki/Continued_fraction
-
+- polynomials.py: polynomial operations
+- elliptic.py: Elliptic curve operations

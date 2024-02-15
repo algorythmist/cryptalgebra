@@ -2,7 +2,7 @@ from typing import Tuple
 
 from integers import mod_inverse
 
-Point = Tuple[int, int]
+Point = Tuple[int, int] | None
 
 
 class EllipticCurve:
@@ -25,10 +25,13 @@ class EllipticCurve:
     def __str__(self):
         return self.__repr__()
 
-    def is_valid_point(self, x, y) -> bool:
+    def is_valid_point(self, p: Point) -> bool:
         """
         Check if the point (x, y) is a valid point on the curve.
         """
+        if not p:
+            return True
+        x, y = p
         return (y * y - x * x * x - self.a * x - self.b) % self.p == 0
 
     def determinant(self) -> int:
@@ -41,10 +44,14 @@ class EllipticCurve:
         """
         Add two points p1 = (x1, y1) and p2 = (x2, y2) on the curve.
         """
+        if not p1:
+            return p2
+        if not p2:
+            return p1
         x1, y1 = p1
         x2, y2 = p2
-        if x1 == x2 and y1 == y2:
-            return self.double((x1, y1))
+        if x1 == x2:
+            return self.double((x1, y1)) if y1 == y2 else None
         slope = (y1 - y2) * mod_inverse(x1 - x2, self.p) % self.p
         x3 = (slope * slope - x1 - x2) % self.p
         y3 = (slope * (x1 - x3) - y1) % self.p
@@ -54,6 +61,8 @@ class EllipticCurve:
         """
         Double the point (x, y) on the curve.
         """
+        if not point:
+            return None
         x, y = point
         slope = (3 * x * x + self.a) * mod_inverse(2 * y, self.p) % self.p
         xr = (slope * slope - 2 * x) % self.p
@@ -64,5 +73,19 @@ class EllipticCurve:
         """
         Negate the point (x, y) on the curve.
         """
+        if not point:
+            return None
         x, y = point
         return x, -y % self.p
+
+    def multiply(self, point: Point, n: int) -> Point:
+        """
+        Multiply the point (x, y) by the scalar n.
+        """
+        if n == 0:
+            return None
+        if n & 1:
+            return self.add(point, self.multiply(point, n - 1))
+        return self.multiply(self.double(point), n >> 1)
+
+

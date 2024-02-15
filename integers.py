@@ -66,6 +66,7 @@ def mod_inverse(a, m):
     :return: the multiplicative inverse of a mod m
     """
     assert m > 0, "Modulo must be a positive integer"
+    assert a, "The integer must be non-zero"
     if a < 0:
         a = m + a
     assert gcd(m, a) == 1, "The integers must be relatively prime"
