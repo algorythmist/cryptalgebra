@@ -8,7 +8,7 @@ setuptools.setup(
     author='Dimitri Papaioannou',
     description='Algebraic cryptography',
     classifiers=[
-        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.11',
         'Operating System :: OS Independent',
     ],
     python_requires='>=3.9'

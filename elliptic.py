@@ -87,5 +87,3 @@ class EllipticCurve:
         if n & 1:
             return self.add(point, self.multiply(point, n - 1))
         return self.multiply(self.double(point), n >> 1)
-
-

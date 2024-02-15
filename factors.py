@@ -28,7 +28,11 @@ def find_primes(upto=100):
     return [n for n in range(2, upto) if is_prime[n]]
 
 
-def naive_factorization(n: int) -> list:
+def naive_factorization(n: int) -> list[int]:
+    """
+    TODO: This will not return multiplicity of each factor and may return powers of a factor
+    Example:naive_factorization(7889) returns [7, 23, 49]
+    """
     sq = int(math.ceil(math.sqrt(n)))
     return [f for f in range(2, sq) if n % f == 0]
 
@@ -37,7 +41,7 @@ def is_square(n: int) -> bool:
     return math.isqrt(n) ** 2 == n
 
 
-def fermat_factorization(n: int, max_tries=1000000):
+def fermat_factorization(n: int, max_tries=1000000) -> tuple[int, int]:
     for k in range(1, max_tries):
         x = n + k ** 2
         if is_square(x):
