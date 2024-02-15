@@ -2,11 +2,12 @@
 Number-theoretic operations on integers
 """
 
-import random
 import logging
+import random
+from typing import Tuple
 
 
-def is_even(n):
+def is_even(n: int) -> bool:
     return n % 2 == 0
 
 
@@ -30,10 +31,10 @@ def lcm(n1: int, n2: int) -> int:
     :param n2: a non-negative integer
     :return: the least common multiple
     """
-    return n1 * n2 / gcd(n1, n2)
+    return (n1 * n2) // gcd(n1, n2)
 
 
-def extended_euclidean_algorithm(n1: int, n2: int) -> (int, int):
+def extended_euclidean_algorithm(n1: int, n2: int) -> Tuple[int, int]:
     """
     Given n1, n2, compute x and y such that x*n1+y*n2 = gcd(n1, n2)
     :param n1: A positive integer
@@ -57,7 +58,7 @@ def extended_euclidean_algorithm(n1: int, n2: int) -> (int, int):
     return y1, x1
 
 
-def mod_inverse(a, m):
+def mod_inverse(a: int, m: int) -> int:
     """
     Compute the multiplicative inverse of a mod m.
     It is required that gcd(a,n) = 1
@@ -74,7 +75,7 @@ def mod_inverse(a, m):
     return y if y > 0 else m + y
 
 
-def mod_solve(a, b, m):
+def mod_solve(a: int, b: int, m: int) -> list[int]:
     """
     Solve the equation ax = b mod m
     :param a:
@@ -90,7 +91,7 @@ def mod_solve(a, b, m):
     return [x + k * (m // g) for k in range(g)]
 
 
-def mod_power(a, exponent, m):
+def mod_power(a: int, exponent: int, m: int) -> int:
     """
     Compute a**exponent mod m
     :param a:
@@ -108,7 +109,12 @@ def mod_power(a, exponent, m):
     return half * half % m if is_even(exponent) else half * half * a % m
 
 
-def remove_powers_of_2(n: int):
+def remove_powers_of_2(n: int) -> Tuple[int, int]:
+    """
+    Remove the powers of 2 from n
+    :param n: an integer
+    :return: a tuple with the number of powers of 2 and the remaining number
+    """
     number = n
     powers = 0
     while is_even(number):
@@ -144,7 +150,7 @@ def is_probably_prime(n: int, iterations: int = 10) -> bool:
     return True
 
 
-def random_number(number_of_digits: int):
+def random_number(number_of_digits: int) -> int:
     range_start = 10 ** (number_of_digits - 1)
     range_end = (10 ** number_of_digits) - 1
     return random.randint(range_start, range_end)
@@ -168,3 +174,19 @@ def generate_random_prime(number_of_digits: int) -> int:
             logging.info(f'Found a prime in {attempts} attempts')
             return n
         n = n + 1
+
+
+def solve_chinese_remainder(tuples: list[Tuple[int, int]]) -> int:
+    """
+    Solve a system of congruences using the Chinese Remainder Theorem
+    :param tuples: a list of tuples (a, m) where a is the remainder and m is the modulo
+    :return: the solution to the system of congruences
+    """
+    m = 1
+    for _, modulo in tuples:
+        m *= modulo
+    result = 0
+    for a, modulo in tuples:
+        m_i = m // modulo
+        result += a * mod_inverse(m_i, modulo) * m_i
+    return result % m

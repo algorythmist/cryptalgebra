@@ -58,7 +58,7 @@ def test_mod_power():
 
 def test_remove_powers_of_2():
     n = 773
-    k, m = remove_powers_of_2(n-1)
+    k, m = remove_powers_of_2(n - 1)
     assert 2 == k
     assert 193 == m
 
@@ -74,7 +74,7 @@ def test_is_probably_prime():
     assert is_probably_prime(773)
     assert is_probably_prime(983)
     assert is_probably_prime(173530588845534154720930373401)
-    n = 38200901201 # This is a strong pseudo prime, so a single M-R test may fail
+    n = 38200901201  # This is a strong pseudo prime, so a single M-R test may fail
     assert not is_probably_prime(n)
 
 
@@ -89,3 +89,18 @@ def test_generate_random_prime():
     prime = generate_random_prime(100)
     assert 100 == len(str(prime))
 
+
+def test_chinese_remainder_1():
+    remainders = [(2, 5), (3, 7), (10, 11)]
+    x = solve_chinese_remainder(remainders)
+    assert 87 == x
+    for a, m in remainders:
+        assert x % m == a
+
+
+def test_chinese_remainder_2():
+    remainders = [(6, 11), (13, 16), (9, 21), (19, 25)]
+    x = solve_chinese_remainder(remainders)
+    assert 89469 == x
+    for a, m in remainders:
+        assert x % m == a

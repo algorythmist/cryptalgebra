@@ -1,8 +1,5 @@
 - Complete README
 
-Integers:
-* Implement Chinese remainder theorem system of equations
-
 Polynomials:
 * Implement fields of polynomials
 
@@ -19,3 +16,7 @@ Permutations:
 
 Elliptic Curves:
 * Implement projective coordinates
+* Support fields of characteristic 2 and 3
+* Support elliptic curves over polynomial fields
+* Support Koblitz curves
+
