@@ -78,6 +78,12 @@ class EllipticCurve:
         x, y = point
         return x, -y % self.p
 
+    def subtract(self, p1: Point, p2: Point) -> Point:
+        """
+        Subtract two points p1 = (x1, y1) and p2 = (x2, y2) on the curve.
+        """
+        return self.add(p1, self.negate(p2))
+
     def multiply(self, point: Point, n: int) -> Point:
         """
         Multiply the point (x, y) by the scalar n.
