@@ -1,5 +1,6 @@
 from elliptic import EllipticCurve
-from elliptic_attacks import naive_prime_attack
+from elliptic_attacks import naive_prime_attack, PohlighHellman
+from integers import solve_chinese_remainder
 
 
 def test_naive_prime():
@@ -22,7 +23,6 @@ def test_pohlig_hellman():
     assert ec.multiply(p, order) is None
 
     q = (4135, 3169)
-    factors = [7**3, 23]
     p0 = ec.multiply(p, order // 23)
     print(p0)
     q0 = ec.multiply(q, order // 23)
@@ -30,3 +30,11 @@ def test_pohlig_hellman():
     l2 = naive_prime_attack(ec, p0, 23, q0)
     assert l2 == 10
     # TODO: finish example
+
+    ph = PohlighHellman(ec, p, order, q)
+    l1= ph._determine_prime_representation(23, 1)
+    print(l1)
+    l2 = ph._determine_prime_representation(7, 3)
+    print(l2)
+    l = solve_chinese_remainder([(l1, 23), (l2, 7**3)])
+    print(l)

@@ -1,4 +1,5 @@
 - Complete README
+- Convert calculations to numpy
 
 Polynomials:
 * Implement fields of polynomials

@@ -8,15 +8,17 @@ from elliptic import EllipticCurve, Point
 from integers import is_probably_prime, mod_inverse
 
 
-def naive_prime_attack(ec: EllipticCurve, p: Point, order: int, q: Point,
-                       iterations: int = 1000) -> int:
-    assert is_probably_prime(order), "The order must be a prime number"
+def naive_prime_attack(ec: EllipticCurve, p: Point, prime_order: int, q: Point,
+                       iterations: int = 10000) -> int:
+    assert is_probably_prime(prime_order), "The order must be a prime number"
+    if p == q:
+        return 1
 
     def find_dupes() -> tuple[int, int, int, int] | None:
         lookup: Dict[Point, tuple[int, int]] = {}
         for _ in range(iterations):
-            c = randint(1, 228)
-            d = randint(1, 228)
+            c = randint(1, prime_order - 1)
+            d = randint(1, prime_order - 1)
             result = ec.add(ec.multiply(p, c), ec.multiply(q, d))
             if result in lookup:
                 e, f = lookup[result]
@@ -29,7 +31,10 @@ def naive_prime_attack(ec: EllipticCurve, p: Point, order: int, q: Point,
     if not result:
         raise ValueError("No solution found")
     c, d, e, f = result
-    return (c - e) * mod_inverse(f - d, order) % order
+    a = (c-e) % prime_order
+    b = (f-d) % prime_order
+    return a * mod_inverse(b, prime_order) % prime_order
+
 
 class PohlighHellman:
 
@@ -51,12 +56,19 @@ class PohlighHellman:
         z: list[int] = []
         for i in range(power):
             if len(z) == 0:
-                q0 = self.ec.multiply(self.q, self.order // prime)
+                q = self.ec.multiply(self.q, self.order // prime)
             else:
                 expansion = self._expand(z, prime)
-                q0 = self.ec.multiply(self._expand(z, prime), self.order // (prime**(i+1)))
-            z[i] = naive_prime_attack(self.ec, self.p, prime, self.q)
+                q = self.ec.subtract(self.q, expansion)
+                q = self.ec.multiply(q, self.order // (prime**(i+1)))
+            z.append(naive_prime_attack(self.ec, p0, prime, q))
+        result = 0
+        for i in range(power):
+            result += z[i] * prime**i
+        return result
 
 
-
+    def solve(self):
+        #TODO: find factors and their powers
+        pass
 
