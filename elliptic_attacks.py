@@ -5,7 +5,8 @@ from random import randint
 from typing import Dict
 
 from elliptic import EllipticCurve, Point
-from integers import is_probably_prime, mod_inverse
+from integers import is_probably_prime, mod_inverse, solve_chinese_remainder
+from factors import naive_factorization_with_multiplicity
 
 
 def naive_prime_attack(ec: EllipticCurve, p: Point, prime_order: int, q: Point,
@@ -51,7 +52,7 @@ class PohlighHellman:
             result = component if result is None else self.ec.add(result, component)
         return result
 
-    def _determine_prime_representation(self, prime: int, power: int):
+    def _determine_prime_representation(self, prime: int, power: int) -> int:
         p0 = self.ec.multiply(self.p, self.order // prime)
         z: list[int] = []
         for i in range(power):
@@ -67,8 +68,9 @@ class PohlighHellman:
             result += z[i] * prime**i
         return result
 
-
     def solve(self):
-        #TODO: find factors and their powers
-        pass
+        factors = naive_factorization_with_multiplicity(self.order)
+        partials_ls = [(self._determine_prime_representation(prime, power), prime**power)
+                       for prime, power in factors]
+        return solve_chinese_remainder(partials_ls)
 

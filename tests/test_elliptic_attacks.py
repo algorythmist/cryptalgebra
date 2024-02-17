@@ -24,17 +24,17 @@ def test_pohlig_hellman():
 
     q = (4135, 3169)
     p0 = ec.multiply(p, order // 23)
-    print(p0)
     q0 = ec.multiply(q, order // 23)
-    print(q0)
     l2 = naive_prime_attack(ec, p0, 23, q0)
     assert l2 == 10
-    # TODO: finish example
 
     ph = PohlighHellman(ec, p, order, q)
-    l1= ph._determine_prime_representation(23, 1)
-    print(l1)
+    l1 = ph._determine_prime_representation(23, 1)
+    assert l1 == 10
     l2 = ph._determine_prime_representation(7, 3)
-    print(l2)
-    l = solve_chinese_remainder([(l1, 23), (l2, 7**3)])
-    print(l)
+    assert l2 == 218
+    l = solve_chinese_remainder([(l1, 23), (l2, 7 ** 3)])
+    assert l == 4334
+
+    assert ph.solve() == 4334
+    assert q == ec.multiply(p, 4334)
