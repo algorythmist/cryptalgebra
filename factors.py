@@ -12,7 +12,7 @@ from integers import mod_power, gcd
 
 def find_primes(upto=100):
     """
-    Find all primes up to n using the Sieve of Erathosthenes
+    Find all primes up to n using the Sieve of Eratosthenes
     :param upto: find all primes up to this number
     :return: the list of primes
     """
@@ -28,6 +28,31 @@ def find_primes(upto=100):
     return [n for n in range(2, upto) if is_prime[n]]
 
 
+def tree_factorization(n: int) -> list[tuple[int, int]]:
+    """
+    Factor an integer using the tree method
+    :param n: the integer to factor
+    :return: a list with the factors
+    """
+
+    def find_multiplicity(factor: int, number) -> int:
+        count = 0
+        while number % factor == 0:
+            count += 1
+            number //= factor
+        return count
+
+    factors = []
+    for f in range(2, n):
+        if n % f == 0:
+            m = find_multiplicity(f, n)
+            factors.append((f, m))
+            n //= f ** m
+        if n == 1:
+            break
+    return factors
+
+
 def naive_factorization(n: int) -> list[int]:
     """
     TODO: This will not return multiplicity of each factor and may return powers of a factor
@@ -35,10 +60,6 @@ def naive_factorization(n: int) -> list[int]:
     """
     sq = int(math.ceil(math.sqrt(n)))
     return [f for f in range(2, sq) if n % f == 0]
-
-
-def is_square(n: int) -> bool:
-    return math.isqrt(n) ** 2 == n
 
 
 def fermat_factorization(n: int, max_tries=1000000) -> tuple[int, int]:
@@ -75,3 +96,27 @@ def factorial_factoring(n: int, base: int = 2, bound=30) -> int:
     """
     b = factorial_power(base, bound, n)
     return gcd(b - 1, n)
+
+
+def pollard_rho_factorization(n: int, x: int = 2, c: int = 1, iterations: int = 10000) -> int:
+    """
+    Pollard's rho algorithm for factoring
+    :param n: the integer to factor
+    :param x: the starting point
+    :param c: the constant
+    :param iterations: the number of iterations
+    :return: a factor if one is found
+    """
+    f = lambda x: (x ** 2 + c) % n
+    y = x
+    for _ in range(iterations):
+        x = f(x)
+        y = f(f(y))
+        d = gcd(abs(x - y), n)
+        if d != 1:
+            return d
+    raise ValueError("No factor found")
+
+
+def is_square(n: int) -> bool:
+    return math.isqrt(n) ** 2 == n
