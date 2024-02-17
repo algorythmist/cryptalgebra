@@ -1,4 +1,5 @@
 from factors import *
+from integers import is_probably_prime
 
 
 def test_naive_factorization():
@@ -16,6 +17,7 @@ def test_tree_factorization():
 def test_pollard_rho_factorization():
     n = 8661340972
     assert pollard_rho_factorization(n) == 4
+    assert is_probably_prime(n // 4)
 
 
 def test_find_primes():
