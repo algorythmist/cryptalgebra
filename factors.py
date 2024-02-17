@@ -3,12 +3,26 @@ Algorithms for finding the factorization of integers
 """
 
 import math
+from collections import OrderedDict
 from math import isqrt
 
 from bitarray import bitarray
 
-from integers import mod_power, gcd
+from integers import mod_power, gcd, is_probably_prime
 
+
+def find_multiplicity(factor: int, number) -> int:
+    """
+    Find the multiplicity of a prime factor in a number
+    :param factor: the prime factor
+    :param number: the number to factor
+    :return: the multiplicity
+    """
+    count = 0
+    while number % factor == 0:
+        count += 1
+        number //= factor
+    return count
 
 def find_primes(upto=100):
     """
@@ -34,14 +48,6 @@ def tree_factorization(n: int) -> list[tuple[int, int]]:
     :param n: the integer to factor
     :return: a list with the factors
     """
-
-    def find_multiplicity(factor: int, number) -> int:
-        count = 0
-        while number % factor == 0:
-            count += 1
-            number //= factor
-        return count
-
     factors = []
     for f in range(2, n):
         if n % f == 0:
@@ -61,6 +67,22 @@ def naive_factorization(n: int) -> list[int]:
     sq = int(math.ceil(math.sqrt(n)))
     return [f for f in range(2, sq) if n % f == 0]
 
+
+def naive_factorization_with_multiplicity(n: int) -> list[tuple[int, int]]:
+    factors = naive_factorization(n)
+    factors_with_multiplicity = OrderedDict()
+    for f in factors:
+        if is_probably_prime(f):
+            m = find_multiplicity(f, n)
+            factors_with_multiplicity[f] = m
+    product = 1
+    for f, m in factors_with_multiplicity.items():
+        product *= f ** m
+    complement = n // product
+    if complement not in factors_with_multiplicity and complement != 1:
+        factors_with_multiplicity[complement] = find_multiplicity(complement, n)
+
+    return list(factors_with_multiplicity.items())
 
 def fermat_factorization(n: int, max_tries=1000000) -> tuple[int, int]:
     for k in range(1, max_tries):

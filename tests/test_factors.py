@@ -1,3 +1,5 @@
+import pytest
+
 from factors import *
 from integers import is_probably_prime
 
@@ -6,6 +8,17 @@ def test_naive_factorization():
     assert len(naive_factorization(19)) == 0
     assert [2, 3] == naive_factorization(18)
     assert [2, 4, 7, 8, 14, 28, 56] == naive_factorization(9688)
+
+    p = 2165335243
+    assert naive_factorization(p) == []
+
+
+def test_naive_factorization_with_multiplicity():
+    assert naive_factorization_with_multiplicity(2048) == [(2, 11)]
+    assert [(2, 2), (3, 2)] == naive_factorization_with_multiplicity(36)
+    assert [(2, 3), (7, 1), (173, 1)] == naive_factorization_with_multiplicity(9688)
+    assert naive_factorization_with_multiplicity(2165335243) == [(2165335243, 1)]
+    assert naive_factorization_with_multiplicity(8661340972) == [(2, 2), (2165335243, 1)]
 
 
 def test_tree_factorization():
@@ -18,6 +31,10 @@ def test_pollard_rho_factorization():
     n = 8661340972
     assert pollard_rho_factorization(n) == 4
     assert is_probably_prime(n // 4)
+
+    with pytest.raises(ValueError) as e:
+        pollard_rho_factorization(n//4)
+        assert "No factor found" in str(e.value)
 
 
 def test_find_primes():
