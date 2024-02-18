@@ -12,3 +12,8 @@ Cryptosystems based on abstract algebra
 - continued_fractions.py: continues fractions expansion. https://en.wikipedia.org/wiki/Continued_fraction
 - polynomials.py: polynomial operations
 - elliptic.py: Elliptic curve operations
+- elliptic_attacks.py: Elliptic curve attacks
+
+A demo of the RSA algorithm can be found [here](rsa_demo.ipynb)
+
+A demo for Elliptic Curves and the Pohlig Hellman attack can be found [here](elliptic_demo.ipynb)

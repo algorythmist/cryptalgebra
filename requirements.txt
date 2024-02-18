@@ -1,2 +1,3 @@
 bitarray
 pytest
+ipykernel

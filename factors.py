@@ -24,6 +24,7 @@ def find_multiplicity(factor: int, number) -> int:
         number //= factor
     return count
 
+
 def find_primes(upto=100):
     """
     Find all primes up to n using the Sieve of Eratosthenes
@@ -83,6 +84,7 @@ def naive_factorization_with_multiplicity(n: int) -> list[tuple[int, int]]:
         factors_with_multiplicity[complement] = find_multiplicity(complement, n)
 
     return list(factors_with_multiplicity.items())
+
 
 def fermat_factorization(n: int, max_tries=1000000) -> tuple[int, int]:
     for k in range(1, max_tries):
